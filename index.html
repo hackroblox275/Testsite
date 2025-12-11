@@ -1,128 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloads</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-        .download-item {
-            background-color: #fff;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .download-info {
-            flex-grow: 1;
-        }
-        .download-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #222;
-        }
-        .download-details {
-            font-size: 0.9em;
-            color: #666;
-        }
-        .download-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .download-button:hover {
-            background-color: #0056b3;
-        }
-        .no-downloads {
-            text-align: center;
-            color: #777;
-            font-style: italic;
-        }
-    </style>
-</head>
-<body>
-    <h1>Executor</h1>
+local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/CheatUserzz/RobloxOpenSourceScripts/refs/heads/main/TsNotificactionSource.lua"))()
+local Notify = AkaliNotif.Notify
 
-    <div id="download-list">
-        <p class="no-downloads">No files currently available for download.</p>
-    </div>
+local SupportedGames = {
+    [121864768012064] = "https://api.junkie-development.de/api/v1/luascripts/public/aaab734c9149b63278bb8f84cbb6933846bbc4e83c9ba56cbe17415bdd912df2/download", -- fish it
+    [9876543210] = "https://api.junkie-development.de/api/v1/luascripts/public/04ef165f9563196fc7576f984f9380b1b68bb45af7fd42dcee99f8ea12fd87d7/download", -- Flick
+    [893973440] = "https://api.junkie-development.de/api/v1/luascripts/public/29cd8f8806c34f850d822a1461ad662c4400b82b1a8b0a895be9c820bfd3563f/download", -- Flee the facility 
+    [99567941238278] = "https://raw.githubusercontent.com/BloxCrypto/All-scripts/refs/heads/main/5R.lua", -- Ink Game
+}
 
-    <script>
-        // Sample download data (replace with your actual data)
-        const downloads = [
-            {
-                title: "Delta",
-                details: "Status working ",
-                fileUrl: "https://deltaexploits.gg/",
-                fileSize: "150 MB"
-            },
-            {
-                title: "Krnl",
-                details: "Status working",
-                fileUrl: "https://krnl.cat/",
-                fileSize: "134 MB"
-            },
-            {
-                title: "Codex",
-                details: "Status working",
-                fileUrl: "https://codex.lol/",
-                fileSize: "123 MB"
-            }
-        ];
+local UniversalScript = "https://api.junkie-development.de/api/v1/luascripts/public/83a8e0af15f71aa47fe0e792a528688b56d5b1e9750496c7821e5eb704de6030/download"
 
-        const downloadListDiv = document.getElementById('download-list');
+local placeId = game.PlaceId
 
-        if (downloads.length > 0) {
-            // Clear the "No downloads" message
-            downloadListDiv.innerHTML = '';
+if SupportedGames[placeId] then
+    
+    Notify({
+        Title = "Blueflare NOTIFY",
+        Description = "Supported game found! Loading game script...",
+        Duration = 4
+    })
 
-            downloads.forEach(download => {
-                const downloadItem = document.createElement('div');
-                downloadItem.classList.add('download-item');
+    local success, err = pcall(function()
+        loadstring(game:HttpGet(SupportedGames[placeId]))()
+    end)
 
-                const downloadInfo = document.createElement('div');
-                downloadInfo.classList.add('download-info');
+    if not success then
+        Notify({
+            Title = "Blueflare NOTIFY | Error",
+            Description = "Failed to load game script:\n" .. tostring(err),
+            Duration = 6
+        })
+    else
+        Notify({
+            Title = "Blueflare NOTIFY",
+            Description = "Game script loaded successfully!",
+            Duration = 3
+        })
+    end
 
-                const titleElement = document.createElement('div');
-                titleElement.classList.add('download-title');
-                titleElement.textContent = download.title;
+else
 
-                const detailsElement = document.createElement('div');
-                detailsElement.classList.add('download-details');
-                detailsElement.textContent = download.details + ` (${download.fileSize})`;
+    Notify({
+        Title = "Blueflare NOTIFY | Universal",
+        Description = "Game not supported.\nLoading universal script instead...",
+        Duration = 6
+    })
 
-                downloadInfo.appendChild(titleElement);
-                downloadInfo.appendChild(detailsElement);
+    -- Load universal fallback
+    local success, err = pcall(function()
+        loadstring(game:HttpGet(UniversalScript))()
+    end)
 
-                const downloadButton = document.createElement('a');
-                downloadButton.classList.add('download-button');
-                downloadButton.href = download.fileUrl;
-                downloadButton.textContent = 'Download';
+    if not success then
+        Notify({
+            Title = "Blueflare | Error",
+            Description = "Failed to load universal script:\n" .. tostring(err),
+            Duration = 6
+        })
+    else
+        Notify({
+            Title = "Blueflare NOTIFY",
+            Description = "Universal script loaded!",
+            Duration = 3
+        })
+    end
 
-                downloadItem.appendChild(downloadInfo);
-                downloadItem.appendChild(downloadButton);
-
-                downloadListDiv.appendChild(downloadItem);
-            });
-        }
-    </script>
-</body>
-</html>
+end
