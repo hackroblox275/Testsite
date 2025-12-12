@@ -1,10 +1,10 @@
 print(' KeyAuth Lua Example - https://github.com/mazk5145/')
 local HttpService = game:GetService("HttpService")
 local StarterGui = game:GetService("StarterGui")
-local LuaName = "KeyAuth Lua Example"
+local Blueflare = "Blueflare"
 
 StarterGui:SetCore("SendNotification", {
-	Title = LuaName,
+	Title = Blueflare,
 	Text = "Intializing Authentication...",
 	Duration = 5
 })
@@ -25,7 +25,7 @@ if req == "KeyAuth_Invalid" then
    print(" Error: Application not found.")
 
    StarterGui:SetCore("SendNotification", {
-	   Title = LuaName,
+	   Title = Blueflare,
 	   Text = " Error: Application not found.",
 	   Duration = 3
    })
@@ -43,7 +43,7 @@ elseif (data.message == "invalidver") then
    print(" Error: Wrong application version..")
 
    StarterGui:SetCore("SendNotification", {
-	   Title = LuaName,
+	   Title = Blueflare,
 	   Text = " Error: Wrong application version..",
 	   Duration = 3
    })
@@ -61,7 +61,7 @@ local data = HttpService:JSONDecode(req)
 
 if data.success == false then 
     StarterGui:SetCore("SendNotification", {
-	    Title = LuaName,
+	    Title = Blueflare,
 	    Text = " Error: " .. data.message,
 	    Duration = 5
     })
@@ -70,7 +70,7 @@ if data.success == false then
 end
 
 StarterGui:SetCore("SendNotification", {
-	Title = LuaName,
+	Title = Blueflare,
 	Text = " Successfully Authorized :)",
 	Duration = 5
 })
